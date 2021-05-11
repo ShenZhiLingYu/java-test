@@ -11,8 +11,13 @@ public class StuDaoTest extends TestCase {
 
     @Test
     public void queryAll() {
+
+        // 加载Spring配置文件，获取Spring容器
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        JdbcTemplate jdbcTemplate = context.getBean(JdbcTemplate.class);
+
+        // 从Spring容器中获取对象
+        // bean-id与接口名一致，首字母为小写
+
 
         jdbcTemplate.execute("select * from student");
 
