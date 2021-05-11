@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface StuDao {
 
-    ///查询
+    ///查询  ---test
     public List<Stu> queryAll();
 }
