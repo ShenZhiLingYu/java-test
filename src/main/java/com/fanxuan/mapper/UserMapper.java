@@ -2,9 +2,9 @@ package com.fanxuan.mapper;
 
 import java.util.List;
 
+import com.fanxuan.entity.User;
 import org.apache.ibatis.annotations.Param;
 
-import cn.tedu.mybatis.entity.User;
 
 public interface UserMapper {
 

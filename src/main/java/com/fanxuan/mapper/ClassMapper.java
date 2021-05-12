@@ -1,6 +1,7 @@
 package com.fanxuan.mapper;
 
-import cn.tedu.mybatis.vo.ClazzVO;
+
+import com.fanxuan.vo.ClazzVO;
 
 public interface ClassMapper {
 	

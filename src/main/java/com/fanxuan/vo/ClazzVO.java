@@ -1,8 +1,9 @@
 package com.fanxuan.vo;
 
+import com.fanxuan.entity.Student;
+
 import java.util.List;
 
-import cn.tedu.mybatis.entity.Student;
 
 public class ClazzVO {
 	
