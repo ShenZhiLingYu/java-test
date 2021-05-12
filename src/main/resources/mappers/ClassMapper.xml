@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!--添加根节点  -->
+<mapper namespace="cn.tedu.mybatis.mapper.ClassMapper">
+	
+	<!--id:填写select对应的resultMap值相互对接
+			type:该标签id对接的select的id的那个类用到的文件的路径
+	  -->
+	<resultMap id="classMap" type="cn.tedu.mybatis.vo.ClazzVO">
+	<!--id节点:专用配置自增长字段的节点(一般为主键)
+			column:查询结果的列名/字段名
+			property:返回结果类型中的属性名
+	 -->
+		<id column="class_id" property="classId" />
+		<!--resul节点t:配置非主键的节点  -->
+		<result column="class_name" property="className" />
+		<!--collection:配置一对多关系的数据
+				ofType:集合中的数据类型被声明的类的路径
+		-->
+		<collection property="students" ofType="cn.tedu.mybatis.entity.Student">
+			<id column="student_id" property="id"/>
+			<result column="student_name" property="name"/>
+		</collection>
+	</resultMap>
+	
+	<!--  -->
+	<select id="getClassInfo" resultMap="classMap">
+		select
+			c.id class_id,
+			c.name class_name,
+			s.id student_id,
+			s.name student_name 
+			from t_class c
+			join t_student s
+			on c.id=s.class_id
+			where c.name=#{className};
+	</select>
+	
+	
+</mapper>

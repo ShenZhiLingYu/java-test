@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!--添加根节点  -->
+<mapper namespace="cn.tedu.mybatis.mapper.UserMapper">
+	
+	<!--id:抽象方法的名称  （.java中的）
+			parameterType:指定参数类型及抽象方法里边的参数类型
+			字段列表要写
+			t_user(表格的类型名称)
+			value(User类的属性名称)
+	  -->
+	<insert id="insert" 
+					 parameterType="cn.tedu.mybatis.entity.User" 
+					 useGeneratedKeys="true" 
+					 keyProperty="id">
+		INSERT INTO t_user (
+			username, password, 	
+			age, phone, email
+		) VALUES (
+			#{username}, #{password}, 
+			#{age}, #{phone}, #{email}
+		)
+	</insert>
+	
+	<delete id="deleteUserById">
+		delete from t_user where id=#{id}	
+	</delete>
+
+	<delete id="deleteUserByName">
+		delete from t_user where username=#{username}	
+	</delete>
+	
+	<update id="updatePassWord">
+		update t_user set password=#{password}
+	</update>
+	
+	<delete id="deleteAll">
+		delete from t_user;
+	</delete>
+	
+	<select id="findAll" resultType="cn.tedu.mybatis.entity.User">
+		select 
+			id,username,password,age,phone,email
+		from t_user
+	</select>
+	
+	<select id="findUserById" resultType="cn.tedu.mybatis.entity.User">
+		select 
+			id,username,password,age,phone,email
+		from t_user where id=#{id}
+	</select>
+	
+	<select id="findUserByUsername" resultType="cn.tedu.mybatis.entity.User">
+		select 
+			id,username,password,age,phone,email
+		from t_user where username=#{username}
+	</select>  
+	
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(id) from t_user 
+	</select>
+	
+	<update id="changePassword">
+		update t_user set password=#{password} where id=#{id}
+	</update> 
+	
+	<!--通过配置if标签可以解决动态SQL问题,当不想修改某条数据的某个值时，
+		将其设置为null值即可，其它正常修改  -->
+	<update id="changeInfo">
+		update t_user set
+		<if test="username ！= null">
+			username=#{username}, 
+		</if>
+		<if test="password != null">
+			password=#{password},
+		</if>
+		<if test="age != null">
+			age=#{age},
+		</if>
+		<if test="phone != null">
+			phone=#{phone},
+		</if>
+		<if test="email != null">
+			email=#{email}
+		</if>
+			modified_time = #{modifiedTime}
+			where id=#{id}
+	</update>  
+	
+	<!--collection:使用哪个集合，取值使用哪个(list,array)
+			item:每次遍历的属性的名称
+			separator:IN内部的各个值之间的分隔符
+			opean:遍历后的结果的起始字符
+			close:遍历后的结果的末尾字符
+	 -->
+	<delete id="deleteUserByIds">
+		delete from t_user where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>    
+	
+	
+	<delete id="deleteUserByIdss">
+		delete from t_user where id in(
+		<foreach collection="array" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>  
+	
+	<delete id="deleteUserByIdsss">
+		delete from t_user where id in(
+		<foreach collection="ids" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>  
+	
+	<delete id="deleteUserByIdssss">
+		delete from t_user where id in(
+		<foreach collection="ids" item="id" separator=",">
+			#{id}
+		</foreach>
+		) and username=#{username}
+	</delete>                
+	
+</mapper>
